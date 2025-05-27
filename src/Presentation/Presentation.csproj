@@ -37,6 +37,7 @@
     <_ContentIncludedByDefault Remove="Components\Pages\Suppliers\Components\SupplierModalComponent.razor" />
     <_ContentIncludedByDefault Remove="Components\Pages\AccountComponents\Breadcrumb.razor" />
     <_ContentIncludedByDefault Remove="wwwroot\uploads\products\91f06c11-a4a8-4855-8f99-b48f167bbff2.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\uploads\products\9fb70eac-82f9-4dbf-8a4b-c2c400fca610.png" />
   </ItemGroup>
 
 </Project>
