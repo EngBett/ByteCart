@@ -1,0 +1,128 @@
+@using ByteCart.Application.Products.Commands.UploadProductImage
+@using Microsoft.AspNetCore.Components.Forms
+@using System.ComponentModel.DataAnnotations
+@using ByteCart.Presentation.Extensions
+@using Microsoft.AspNetCore.Http
+@inject IMediator Mediator
+@inject NavigationManager NavigationManager
+
+<div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Product Images</h3>
+    
+    @if (!string.IsNullOrEmpty(ErrorMessage))
+    {
+        <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+            @ErrorMessage
+        </div>
+    }
+    
+    @if (CurrentImage != null)
+    {
+        <div class="mb-4">
+            <img src="@CurrentImage" alt="Current product image" class="w-36 h-36 object-cover rounded-md" />
+        </div>
+    }
+    
+    <InputFile OnChange="OnInputFileChange" accept="image/*" class="hidden" id="uploadInput" />
+    <label for="uploadInput" class="flex items-center justify-center w-full h-24 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none">
+        <span class="flex flex-col items-center space-y-2">
+            <iconify-icon icon="solar:upload-line-duotone" class="text-2xl text-gray-500"></iconify-icon>
+            <span class="text-sm text-gray-600">
+                Click to select an image
+                @if (SelectedFiles?.Count > 0)
+                {
+                    <span class="text-blue-600"> (@SelectedFiles[0].Name selected)</span>
+                }
+            </span>
+        </span>
+    </label>
+    
+    @if (SelectedFiles?.Count > 0)
+    {
+        <div class="flex justify-end mt-4">
+            <button @onclick="UploadImage" class="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700" disabled="@IsUploading">
+                @if (IsUploading)
+                {
+                    <span class="inline-block mr-1">
+                        <span class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                    </span>
+                    <span>Uploading...</span>
+                }
+                else
+                {
+                    <span>Upload Image</span>
+                }
+            </button>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string ProductId { get; set; } = null!;
+    
+    [Parameter]
+    public string? CurrentImage { get; set; }
+    
+    [Parameter]
+    public EventCallback<string> OnImageUploaded { get; set; }
+    
+    private IReadOnlyList<IBrowserFile>? SelectedFiles;
+    private bool IsUploading;
+    private string? ErrorMessage;
+    
+    private Task OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        ErrorMessage = null;
+        SelectedFiles = e.GetMultipleFiles(1);
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+    
+    private async Task UploadImage()
+    {
+        if (SelectedFiles == null || SelectedFiles.Count == 0)
+        {
+            ErrorMessage = "Please select an image file first.";
+            return;
+        }
+        
+        try
+        {
+            IsUploading = true;
+            
+            var file = SelectedFiles[0];
+            
+            // Make sure it's an image
+            if (!file.ContentType.StartsWith("image/"))
+            {
+                ErrorMessage = "Please select a valid image file.";
+                return;
+            }
+            
+            // Convert the browser file to IFormFile
+            var formFile = await file.ConvertToFormFileAsync(5242880); // Max 5MB
+            
+            var command = new UploadProductImageCommand
+            {
+                ProductId = ProductId,
+                Image = formFile
+            };
+            
+            var result = await Mediator.Send(command);
+            
+            if (!string.IsNullOrEmpty(result))
+            {
+                await OnImageUploaded.InvokeAsync(result);
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = $"Upload failed: {ex.Message}";
+        }
+        finally
+        {
+            IsUploading = false;
+        }
+    }
+}

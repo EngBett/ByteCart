@@ -1,0 +1,51 @@
+@typeparam T
+ 
+<div class="mt-6 flex justify-center">
+            
+            <nav class="inline-flex -space-x-px text-sm">
+                <ul class="flex items-center -space-x-px h-8 text-sm">
+                    <li>
+                        <button @onclick="() => HandlePageChangeAsync(1)" 
+                                disabled="@(Data.PageNumber == 1)"
+                                class="@(Data.PageNumber == 1 ? "cursor-not-allowed" : "cursor-pointer") flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white disabled:opacity-50">
+                            <iconify-icon icon="solar:double-alt-arrow-left-line-duotone" class="text-2xl font-bold"></iconify-icon>
+                        </button>
+                    </li>
+                    <li>
+                        <button @onclick="() => HandlePageChangeAsync(Data.PageNumber - 1)"
+                                disabled="@(Data.PageNumber == 1)"
+                                class="@(Data.PageNumber == 1 ? "cursor-not-allowed" : "cursor-pointer") flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white disabled:opacity-50">
+                            <iconify-icon icon="solar:alt-arrow-left-linear" class="text-2xl font-bold"></iconify-icon>
+                        </button>
+                    </li>
+
+                    @{
+                        var totalPages = (int)Math.Ceiling(Data.TotalCount / (double)PageSize);
+                    }
+
+                    <li>
+                        <button disabled
+                                class="flex items-center justify-center px-3 h-8 leading-tight border text-white bg-blue-600 border-blue-600 hover:bg-blue-700 hover:text-white dark:border-blue-500 dark:bg-blue-600 dark:hover:bg-blue-700 dark:hover:text-white">
+                            @Data.PageNumber
+                        </button>
+                    </li>
+                    @{
+                        var lastPage = Data.PageNumber == totalPages;
+                    }
+                    <li>
+                        <button @onclick="() => HandlePageChangeAsync(Data.PageNumber + 1)" disabled="@lastPage"
+                                class="@(lastPage ? "cursor-not-allowed" : "cursor-pointer") flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white disabled:opacity-50">
+                            <iconify-icon icon="solar:alt-arrow-right-linear" class="text-2xl font-bold"></iconify-icon>
+                        </button>
+                    </li>
+                    <li>
+
+                        <button @onclick="() => HandlePageChangeAsync(totalPages)" disabled="@lastPage"
+                                class="@(lastPage ? "cursor-not-allowed" : "cursor-pointer") flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white disabled:opacity-50">
+                            <iconify-icon icon="solar:double-alt-arrow-right-line-duotone"
+                                          class="text-2xl font-bold"></iconify-icon>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>

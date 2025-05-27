@@ -1,0 +1,22 @@
+<div class="p-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <div class="flex items-center justify-between">
+        <div>
+            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">@Title</p>
+            <h3 class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">@Value</h3>
+        </div>
+        <div class="p-3 bg-blue-100 rounded-full dark:bg-blue-900/20 @CssColor">
+            <iconify-icon icon="@IconifyIcon" class="text-2xl mx-1"></iconify-icon>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Title { get; set; } = string.Empty;
+    [Parameter]
+    public int Value { get; set; }
+    [Parameter]
+    public string IconifyIcon { get; set; } = "solar:cart-check-line-duotone";
+
+    [Parameter] public string CssColor { get; set; } = "text-blue-600 dark:text-blue-400";
+}

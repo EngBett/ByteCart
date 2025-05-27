@@ -1,0 +1,67 @@
+@page "/suppliers"
+@using Presentation.Components.Pages.Suppliers.Components
+@inherits DashboardComponentBase
+
+<PageTitle>Suppliers</PageTitle>
+
+<div class="py-6">
+    <!-- Header -->
+    <HeaderComponent Title="Suppliers" Subtitle="Manage your product suppliers and vendors"
+                     ButtonName="Add New Supplier" OnActionClick="OpenCreateSupplierModal"
+                     IconifyIcon="solar:clipboard-add-line-duotone"/>
+
+    <!-- Alert -->
+    <AlertsComponent AlertType="@alertType" AlertMessage="@alertMessage"/>
+
+    <!-- Search Box -->
+    <div class="mb-6 p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm">
+        <h3 class="text-lg font-semibold mb-2">Search Suppliers</h3>
+        <div class="flex flex-col sm:flex-row gap-3">
+            <input type="text"
+                   class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white focus:ring-blue-500 focus:border-blue-500"
+                   placeholder="Search by name..." @bind="searchTerm" @bind:event="oninput"/>
+            <button
+                class="cursor-pointer inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-700 dark:hover:bg-blue-800 dark:focus:ring-blue-900"
+                @onclick="ApplySearch">
+                <iconify-icon icon="solar:magnifer-line-duotone" class="text-xl font-bold"></iconify-icon>
+            </button>
+        </div>
+    </div>
+
+    @if (loading)
+    {
+        <div class="flex justify-center py-12">
+            <div class="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+    }
+    else if (suppliers == null || !suppliers.Items.Any())
+    {
+        <div class="p-4 text-sm text-blue-800 bg-blue-100 border border-blue-200 rounded-lg">
+            <div class="flex items-center gap-2">
+                <i class="bi bi-info-circle"></i>
+                <span>No suppliers found. Add a new supplier or adjust your search criteria.</span>
+            </div>
+        </div>
+    }
+    else
+    {
+        <!-- Table -->
+        <SupplierTableComponent Suppliers="suppliers.Items" OnEdit="OpenEditSupplierModal" OnDelete="ShowDeleteConfirmation"/>
+
+        <!-- Pagination -->
+        <PaginationComponent T="SupplierDto" Data="suppliers" PageSize="pageSize" OnPageChanged="OnPageChangeAsync"/>
+    }
+
+    <!-- Supplier Modal -->
+    <SupplierModalComponent ShowModal="@showSupplierModal"
+                            SupplierModel="@_supplierViewModel"
+                            ModalTitle="@modalTitle"
+                            OnSave="SaveSupplier"
+                            OnCancel="CloseModal"/>
+
+    <!-- Delete Confirmation Modal -->
+    <DeleteConfirmationComponent ShowModal="@showDeleteConfirmation"
+                                 ModalTitle="@supplierToDeleteName"
+                                 OnConfirm="DeleteSupplier"
+                                 OnCancel="CancelDelete"/>
+</div>

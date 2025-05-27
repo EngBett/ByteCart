@@ -1,0 +1,74 @@
+﻿<div class="flex h-full flex-col border-r bg-card">
+    <div class="flex shrink-0 items-center border-b h-16 px-6">
+        <a href="" class="flex items-center gap-2 font-semibold">
+            <span class="bg-primary rounded-md h-8 w-8 flex items-center justify-center text-primary-foreground">
+                <i class="bi bi-bag text-lg"></i>
+            </span>
+            <span class="font-bold text-xl">ByteCart</span>
+        </a>
+    </div>
+    <nav class="flex flex-1 flex-col overflow-y-auto">
+        <ul class="flex flex-1 flex-col gap-y-1 px-2 py-4">
+            <li>
+                <NavLink href="" Match="NavLinkMatch.All"
+                    class="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-all hover:bg-accent hover:text-accent-foreground"
+                    ActiveClass="bg-accent text-accent-foreground">
+                    <i class="bi bi-house-door text-lg"></i>
+                    <span>Dashboard</span>
+                </NavLink>
+            </li>
+            <li>
+                <NavLink href="products"
+                    class="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-all hover:bg-accent hover:text-accent-foreground"
+                    ActiveClass="bg-accent text-accent-foreground">
+                    <i class="bi bi-box-seam text-lg"></i>
+                    <span>Products</span>
+                </NavLink>
+            </li>
+            <li>
+                <NavLink href="categories"
+                    class="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-all hover:bg-accent hover:text-accent-foreground"
+                    ActiveClass="bg-accent text-accent-foreground">
+                    <i class="bi bi-list-nested text-lg"></i>
+                    <span>Categories</span>
+                </NavLink>
+            </li>
+            <li>
+                <NavLink href="tags"
+                    class="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-all hover:bg-accent hover:text-accent-foreground"
+                    ActiveClass="bg-accent text-accent-foreground">
+                    <i class="bi bi-tags text-lg"></i>
+                    <span>Tags</span>
+                </NavLink>
+            </li>
+            <li>
+                <NavLink href="suppliers"
+                    class="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-all hover:bg-accent hover:text-accent-foreground"
+                    ActiveClass="bg-accent text-accent-foreground">
+                    <i class="bi bi-building text-lg"></i>
+                    <span>Suppliers</span>
+                </NavLink>
+            </li>
+            <li>
+                <NavLink href="weather"
+                    class="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-all hover:bg-accent hover:text-accent-foreground"
+                    ActiveClass="bg-accent text-accent-foreground">
+                    <i class="bi bi-cloud text-lg"></i>
+                    <span>Weather</span>
+                </NavLink>
+            </li>
+        </ul>
+    </nav>
+    
+    <div class="mt-auto border-t py-4 px-6">
+        <div class="flex items-center gap-3">
+            <div class="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground">
+                <i class="bi bi-person-circle text-lg"></i>
+            </div>
+            <div>
+                <p class="text-sm font-medium">Admin User</p>
+                <p class="text-xs text-muted-foreground">admin@bytecart.com</p>
+            </div>
+        </div>
+    </div>
+</div>

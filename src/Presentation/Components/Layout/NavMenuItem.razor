@@ -1,0 +1,10 @@
+<!-- Current: "bg-cyan-800 text-white", Default: "text-cyan-100 hover:text-white hover:bg-cyan-600" -->
+<a href="@Href"
+   class="@(IsActive?"bg-cyan-800 text-white":"text-cyan-100 hover:text-white hover:bg-cyan-600") group flex justify-content-between items-center px-2 py-2 text-sm leading-6 font-medium rounded-md"
+   aria-current="page">
+    <iconify-icon
+        icon="@IconifyIcon"
+        class="mr-4 flex-shrink-0 text-2xl font-bold text-cyan-200">
+    </iconify-icon>
+    @Name
+</a>

@@ -1,0 +1,69 @@
+<div
+    class="relative z-10 flex-shrink-0 flex h-16 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 lg:border-none">
+    <button type="button"
+            class="px-4 border-r border-gray-200 dark:border-gray-700 text-gray-400 dark:text-gray-400 cursor-pointer focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-500 lg:hidden"
+            @onclick="OnOpenMenuAsync">
+        <span class="sr-only">Open sidebar</span>
+        <iconify-icon icon="solar:hamburger-menu-broken" class="text-3xl font-bold"></iconify-icon>
+    </button>
+
+    <!-- Search bar -->
+    <div class="flex-1 px-4 flex justify-between sm:px-6 lg:max-w-6xl lg:mx-auto lg:px-8">
+        <div class="flex-1 flex">
+            <SectionOutlet SectionName="head-search"/>
+        </div>
+        <div class="ml-4 flex items-center md:ml-6">
+
+
+            <!-- Profile dropdown -->
+            <div class="mx-3 relative">
+                <div>
+                    <button type="button"
+                            data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start"
+                            class="max-w-xs bg-white dark:bg-gray-800 cursor-pointer rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 lg:p-2 lg:rounded-md lg:hover:bg-gray-50 dark:lg:hover:bg-gray-700"
+                            id="user-menu-button" aria-expanded="false" aria-haspopup="true"
+                            @onclick="() => { ProfileDropdownVisible = !ProfileDropdownVisible; }">
+                        <img class="h-8 w-8 rounded-full" src="/images/user.png" alt="">
+                        <span class="hidden ml-3 text-gray-700 dark:text-gray-200 text-sm font-medium lg:block">
+                            <span
+                                class="sr-only">Open user menu for </span>@(ContextAccessor != null ? ContextAccessor.HttpContext?.User.Identity?.Name : "loading...")
+                        </span>
+                        <iconify-icon icon="solar:alt-arrow-@(ProfileDropdownVisible ? "up" : "down")-linear"
+                                      class="text-2xl font-bold text-gray-400 dark:text-gray-400"></iconify-icon>
+                    </button>
+
+                    <!-- Dropdown menu -->
+                    <div id="userDropdown"
+                         class="z-10 hidden bg-white dark:bg-gray-700 divide-y divide-gray-100 dark:divide-gray-600 rounded-lg shadow-sm w-44">
+                        <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
+                            <div>@(ContextAccessor != null ? ContextAccessor.HttpContext?.User.Identity?.Name : "loading...")</div>
+                            
+                        </div>
+                        <div class="py-1">
+                            <a href="/Auth/Logout"
+                               class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white">Sign
+                                out</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Dark mode toggle button -->
+            <button type="button"
+                    @onclick="ToggleTheme"
+                    class="bg-white dark:bg-gray-800 cursor-pointer flex items-center justify-center p-1 rounded-full text-gray-400 dark:text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
+                <span class="sr-only">Switch theme</span>
+                @if (isDarkMode)
+                {
+                    <iconify-icon icon="solar:moon-bold-duotone" class="text-3xl font-bold"></iconify-icon>
+                }
+                else
+                {
+                    <iconify-icon icon="solar:sun-2-line-duotone" class="text-3xl font-bold"></iconify-icon>
+                }
+            </button>
+
+        </div>
+    </div>
+</div>

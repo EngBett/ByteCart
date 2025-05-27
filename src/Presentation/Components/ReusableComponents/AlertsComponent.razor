@@ -1,0 +1,24 @@
+@if (!string.IsNullOrEmpty(AlertMessage))
+{
+    <div
+        class="mb-6 p-4 text-sm rounded-lg @(AlertType == "success" ? "text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" :
+                                           AlertType == "danger" ? "text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" :
+                                           "text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400")" role="alert">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <iconify-icon
+                    icon="solar:@(AlertType == "success" ? "check-circle-line-duotone" : AlertType == "danger" ? "danger-triangle-line-duotone" : "info-circle-line-duotone")"  
+                    class="mr-3 flex-shrink-0 text-3xl font-bold text-cyan-200"></iconify-icon>
+                <span>@AlertMessage</span>
+            </div>
+            <button type="button" @onclick="() => AlertMessage = string.Empty">
+                <i class="bi bi-x text-lg"></i>
+            </button>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public string AlertMessage { get; set; } = string.Empty;
+    [Parameter] public string AlertType { get; set; } = string.Empty;
+}

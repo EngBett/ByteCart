@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head class="">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <base href="/"/>
+    <script src="https://cdn.jsdelivr.net/npm/@@tailwindcss/browser@4"></script>
+    <link href="/flowbite/flowbite.min.css" rel="stylesheet" />
+    <ImportMap/>
+    <link rel="icon" type="image/png" href="favicon.png"/>
+    <HeadOutlet @rendermode="InteractiveServer"/>
+    <!-- Prevent Flash of Unstyled Content (FOUC) for dark mode -->
+    <script>
+        // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+        if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</head>
+
+<body>
+<CascadingAuthenticationState>
+    <Routes @rendermode="InteractiveServer"/>
+</CascadingAuthenticationState>
+<script src="_framework/blazor.web.js"></script>
+<script src="https://code.iconify.design/iconify-icon/1.0.8/iconify-icon.min.js"></script>
+<script src="/flowbite/flowbite.min.js"></script>
+<script src="/js/theme.js"></script>
+<script>
+    window.initializeFlowbite = () => {
+        initFlowbite();
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        initFlowbite();
+        if (window.themeManager && typeof window.themeManager.initialize === 'function') {
+            window.themeManager.initialize();
+        }
+    });
+
+    window.downloadFileFromUrl = (url) => {
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = ''; // Let the server set the filename
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    };
+</script>
+</body>
+</html>

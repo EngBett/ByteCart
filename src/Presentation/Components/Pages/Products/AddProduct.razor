@@ -1,0 +1,162 @@
+@page "/products/add"
+@inherits DashboardComponentBase
+
+<PageTitle>Add New Product</PageTitle>
+
+<div class="py-6">
+    <!-- Header -->
+    <HeaderComponent Title="Add New Product" Subtitle="Create a new product in your inventory" ButtonName="Back to Products" OnActionClick="GoBack" IconifyIcon="solar:arrow-left-line-duotone" />
+
+    <!-- Alert -->
+    <AlertsComponent AlertType="@alertType" AlertMessage="@alertMessage"/>
+
+    @if (loading)
+    {
+        <div class="flex justify-center py-12">
+            <div class="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+    }
+    else
+    {
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="lg:col-span-2 p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm">
+                <EditForm Model="@productModel" OnValidSubmit="@SaveProduct" class="space-y-6">
+                    <DataAnnotationsValidator/>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div>
+                        <label for="name"
+                               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                        <InputText id="name" @bind-Value="productModel.Name" placeholder="Product name"
+                                   class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+                        <ValidationMessage For="@(() => productModel.Name)" class="text-xs text-red-500 mt-1"/>
+                    </div>
+
+                    <div>
+                        <label for="sku"
+                               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">SKU</label>
+                        <InputText id="sku" @bind-Value="productModel.SKU" placeholder="SKU"
+                                   class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+                        <ValidationMessage For="@(() => productModel.SKU)" class="text-xs text-red-500 mt-1"/>
+                    </div>
+
+                    <div>
+                        <label for="supplier" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Supplier</label>
+                        <InputSelect id="supplier" @bind-Value="productModel.SupplierId" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option>-- Select Supplier --</option>
+                            @foreach (var supplier in suppliers)
+                            {
+                                <option value="@supplier.Id">@supplier.Name</option>
+                            }
+                        </InputSelect>
+                        <ValidationMessage For="@(() => productModel.SupplierId)" class="text-xs text-red-500 mt-1"/>
+                    </div>
+
+
+                    <div>
+                        <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price
+                            ($)</label>
+                        <InputNumber id="price" @bind-Value="productModel.Price"
+                                     class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+                        <ValidationMessage For="@(() => productModel.Price)" class="text-xs text-red-500 mt-1"/>
+                    </div>
+
+                    <div>
+                        <label for="costPrice" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cost
+                            Price ($)</label>
+                        <InputNumber id="costPrice" @bind-Value="productModel.CostPrice"
+                                     class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+                        <ValidationMessage For="@(() => productModel.CostPrice)" class="text-xs text-red-500 mt-1"/>
+                    </div>
+
+                    <div>
+                        <label for="stockQty" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Stock
+                            Qty</label>
+                        <InputNumber id="stockQty" @bind-Value="productModel.StockQuantity"
+                                     class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+                        <ValidationMessage For="@(() => productModel.StockQuantity)" class="text-xs text-red-500 mt-1"/>
+                    </div>
+
+                    <div>
+                        <label for="status"
+                               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
+                        <InputSelect id="status" @bind-Value="productModel.Status" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value="@ProductStatus.Draft">Draft</option>
+                            <option value="@ProductStatus.Active">Active</option>
+                            <option value="@ProductStatus.Discontinued">Discontinued</option>
+                        </InputSelect>
+                    </div>
+
+                    @**@
+
+                    <div>
+                        <label for="launchDate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Launch
+                            Date</label>
+                        <InputDate id="launchDate" @bind-Value="productModel.LaunchDate"
+                                   class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+                    </div>
+
+                    <div>
+                        <label for="endDate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">End
+                            Date</label>
+                        <InputDate id="endDate" @bind-Value="productModel.EndDate"
+                                   class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                    <InputTextArea @bind-Value="productModel.Description" placeholder="Product description..."
+                                   class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+                </div>
+
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categories</label>
+                    <div class="flex flex-wrap gap-2">
+                        @foreach (var category in categories)
+                        {
+                            var isChecked = categorySelections.ContainsKey(category.Id) && categorySelections[category.Id];
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" checked="@isChecked"
+                                       @onchange="@(e => OnCategorySelectionChanged(category.Id, e))"/>
+                                <span class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">@category.Name</span>
+                            </label>
+                        }
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tags</label>
+                    <div class="flex flex-wrap gap-2">
+                        @foreach (var tag in tags)
+                        {
+                            var isChecked = tagSelections.ContainsKey(tag.Id) && tagSelections[tag.Id];
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" checked="@isChecked"
+                                       @onchange="@(e => OnTagSelectionChanged(tag.Id, e))"/>
+                                <span class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">@tag.Name</span>
+                            </label>
+                        }
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-2 pt-4">
+                    <button type="submit" class="cursor-pointer flex items-center justify-between text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">
+                        <iconify-icon icon="solar:cloud-check-line-duotone"
+                                      class="text-2xl font-bold mr-3"></iconify-icon> Save Product
+                    </button>
+                </div>
+                </EditForm>
+            </div>
+            
+            <div class="lg:col-span-1">
+                <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Product Images</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                        You'll be able to add images after creating the product.
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+</div>

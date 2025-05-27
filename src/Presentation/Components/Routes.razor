@@ -1,0 +1,26 @@
+﻿@inject NavigationManager NavManager
+<Router AppAssembly="typeof(Program).Assembly">
+    <Found Context="routeData">
+        <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.AccountLayout)">
+            <NotAuthorized>
+                @{
+                    NavManager.NavigateTo($"Auth/Login/", forceLoad: true);
+                }
+            </NotAuthorized>
+            <Authorizing>
+                Wait...
+            </Authorizing>
+        </AuthorizeRouteView>
+    </Found>
+    <NotFound>
+        <LayoutView Layout="typeof(Layout.AuthLayout)">
+            <div class="container mt-5">
+                <div class="alert alert-warning">
+                    <h3 class="text-3xl  text-gray-700 md:text-2xl dark:text-gray-200">Page Not Found</h3>
+                    <p class="text-sm  text-gray-700 md:text-2xl dark:text-gray-200">Sorry, the page you requested could not be found.</p>
+                </div>
+                <a href="/" class="text-sm text-blue-500">Return to Home</a>
+            </div>
+        </LayoutView>
+    </NotFound>
+</Router>

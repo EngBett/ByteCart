@@ -1,0 +1,51 @@
+@if (ShowModal)
+    {
+        @* Flowbite modal styling *@
+        <div class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg w-full max-w-md shadow-lg">
+                <h2 class="text-lg font-semibold mb-4">@(IsEditMode ? "Edit Category" : "Create Category")</h2>
+                <EditForm Model="@CategoryModel" OnValidSubmit="SaveCategory">
+                    <DataAnnotationsValidator />
+                    <div class="space-y-4">
+                        <div>
+                            <label for="categoryName" class="block text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                            <InputText id="categoryName" class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white" @bind-Value="CategoryModel.Name" />
+                            <ValidationMessage For="@(() => CategoryModel.Name)" class="text-xs text-red-500 mt-1" />
+                        </div>
+                        <div>
+                            <label for="categoryDescription" class="block text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                            <InputTextArea id="categoryDescription" class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white" @bind-Value="CategoryModel.Description" rows="2s" />
+                            <ValidationMessage For="@(() => CategoryModel.Description)" class="text-xs text-red-500 mt-1" />
+                        </div>
+                        <div>
+                            <label for="parentCategory" class="block text-sm font-medium text-gray-900 dark:text-white">Parent Category</label>
+                            <InputSelect id="parentCategory" class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white" @bind-Value="CategoryModel.ParentCategoryId">
+                                <option value="">-- None --</option>
+                                @if (AllCategories is not null)
+                                {
+                                    @foreach (var category in AllCategories.Where(c => c.Id != CategoryModel.Id))
+                                    {
+                                        <option value="@category.Id">@category.Name</option>
+                                    }
+                                }
+                            </InputSelect>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex justify-end gap-2">
+                        <button type="button" class="cursor-pointer text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white mr-3" @onclick="CloseModal">Cancel</button>
+                        <button type="submit" class="cursor-pointer inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700" disabled="@_submitting">
+                            @if (_submitting)
+                            {
+                                <span class="animate-spin inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full mr-2"></span>
+                                <span>Processing...</span>
+                            }
+                            else
+                            {
+                                @(IsEditMode ? "Update" : "Create")
+                            }
+                        </button>
+                    </div>
+                </EditForm>
+            </div>cursor-pointer 
+        </div>
+    }

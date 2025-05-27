@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  bytecart-db:
+    image: postgres:16
+    container_name: bytecart-postgres
+    environment:
+      - POSTGRES_DB=ByteCart
+      - POSTGRES_USER=super_admin
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - bytecart-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U super_admin -d ByteCart"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  bytecart-app:
+    build:
+      context: .
+      dockerfile: src/Presentation/Dockerfile
+    container_name: bytecart-app
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__ByteCartDb=Server=bytecart-db;Port=5432;Database=ByteCart;Username=super_admin;Password=password;
+      - ASPNETCORE_URLS=http://+:8080
+    ports:
+      - "8080:8080"
+    depends_on:
+      bytecart-db:
+        condition: service_healthy
+    networks:
+      - bytecart-network
+    restart: unless-stopped
+
+networks:
+  bytecart-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

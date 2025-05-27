@@ -1,0 +1,48 @@
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+            <th scope="col" class="px-6 py-3">Name</th>
+            <th scope="col" class="px-6 py-3">Contact Email</th>
+            <th scope="col" class="px-6 py-3">Contact Number</th>
+            <th scope="col" class="px-6 py-3">Website</th>
+            <th scope="col" class="px-6 py-3 text-right">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var supplier in Suppliers)
+        {
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <td class="px-6 py-4">@supplier.Name</td>
+                <td class="px-6 py-4">@(string.IsNullOrEmpty(supplier.ContactEmail) ? "-" : supplier.ContactEmail)</td>
+                <td class="px-6 py-4">@(string.IsNullOrEmpty(supplier.ContactNumber) ? "-" : supplier.ContactNumber)</td>
+                <td class="px-6 py-4">
+                    @if (!string.IsNullOrEmpty(supplier.Website))
+                    {
+                        <a href="@supplier.Website" target="_blank"
+                           class="text-blue-600 hover:underline">@supplier.Website</a>
+                    }
+                    else
+                    {
+                        <span class="text-gray-400">-</span>
+                    }
+                </td>
+                <td class="px-6 py-4 text-right">
+                    <div class="flex items-center justify-end gap-2">
+                        <button class="cursor-pointer text-blue-600 hover:text-blue-800"
+                                @onclick="() => EditSupplier(supplier)">
+                            <iconify-icon icon="solar:pen-new-round-line-duotone"
+                                          class="text-2xl font-bold"></iconify-icon>
+                        </button>
+                        <button class="cursor-pointer text-red-600 hover:text-red-800"
+                                @onclick="() => DeleteSupplier(supplier)">
+                            <iconify-icon icon="solar:trash-bin-trash-line-duotone"
+                                          class="text-2xl font-bold"></iconify-icon>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
