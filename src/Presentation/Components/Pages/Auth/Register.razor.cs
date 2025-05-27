@@ -33,7 +33,7 @@ public partial class Register
         StateHasChanged();
     }
     
-    private void SetErrorAlert(string message, string type = "error")
+    private void SetErrorAlert(string message, string type = "danger")
     {
         alertMessage = message;
         alertType = type;
