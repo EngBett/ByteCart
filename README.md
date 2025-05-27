@@ -68,6 +68,43 @@ Use the following credentials to login:
 - Modular Blazor components for improved maintainability
 - Responsive UI design for all device sizes
 
+## Project Structure
+
+The solution follows Clean Architecture principles with the following structure:
+
+```
+ByteCart/
+├── src/
+│   ├── Application/           # Application business rules
+│   │   ├── Categories/       # Category-related features
+│   │   ├── Common/          # Shared behaviors, interfaces
+│   │   ├── Dashboard/       # Dashboard queries
+│   │   ├── Products/        # Product-related features
+│   │   ├── Suppliers/       # Supplier management
+│   │   └── Tags/           # Tag management
+│   │
+│   ├── Domain/              # Enterprise business rules
+│   │   ├── Common/         # Base entities and objects
+│   │   ├── Constants/      # Application constants
+│   │   ├── Entities/       # Domain entities
+│   │   ├── Enums/         # Domain enumerations
+│   │   └── ValueObjects/   # Value objects
+│   │
+│   ├── Infrastructure/      # External concerns
+│   │   ├── Data/          # Database context and configuration
+│   │   ├── Files/         # File handling
+│   │   ├── Identity/      # Authentication and authorization
+│   │   └── Migrations/    # Database migrations
+│   │
+│   └── Presentation/       # User interface
+│       ├── Components/    # Blazor components
+│       ├── Controllers/   # Used for Auhentication
+│       ├── Services/      # UI services
+│       ├── ViewModels/    # View models
+│
+└── tests/
+```
+
 ## UI Features
 - Modern, responsive design
 - Intuitive navigation
